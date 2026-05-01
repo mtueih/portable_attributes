@@ -1,118 +1,116 @@
-# Portable Attributes
+# portable_attributes
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![C Standard](https://img.shields.io/badge/C-C11%2FC17%2FC23-blue.svg)](https://en.cppreference.com/w/c)
+[![C Standard](https://img.shields.io/badge/C-C89/C95/C99/C11/C17/C23-blue.svg)](https://cppreference.cn/w/c)
 [![CMake](https://img.shields.io/badge/CMake-3.14+-green.svg)](https://cmake.org/)
 
-Portable C function attributes for GCC, Clang, and MSVC.
+C 语言*跨平台*、*跨编译器*、*全标准兼容* **属性抽象封装库**。
 
-## Overview
+## 简介
 
-`portable_attributes` is a header-only C library that provides cross-compiler attribute abstraction for GCC, Clang, and MSVC. It allows developers to use compiler-specific attributes with a unified API, ensuring code portability across different compilers and platforms.
+`portable_attributes` 是一个纯头文件的 C
+语言库，将编译器特有的属性（attribute）和注解封装成统一的宏，使开发者可以用一致的方式表达函数特性、编译期约束和优化提示。所有宏在不支持的环境下都会安全地展开为空，不会导致编译错误。
 
-The library supports C11, C17, and C23 standards and automatically detects the compiler being used to provide the appropriate attribute syntax or fallback to empty macros when a feature is unavailable.
+该库兼容所有 C 标准，能够自动检测当前使用的编译器和 C 标准版本，并提供相应的属性语法，或在特性不可用时安全地回退为空宏定义。
 
-## Features
+## 特性
 
-- **Cross-compiler compatibility**: Works seamlessly with GCC, Clang, and MSVC
-- **Standard compliance**: Supports C11, C17, and C23 standards
-- **Header-only**: No compilation required, just include the header
-- **Comprehensive attribute coverage**: Includes attributes for:
-  - Return value constraints (`NODISCARD`, `RETURNS_NONNULL`, etc.)
-  - Parameter constraints (`NONNULL`, `ACCESS`, `SENTINEL`, etc.)
-  - Side-effect/optimization hints (`PURE`, `CONST`, `MALLOC_LIKE`, etc.)
-  - Format checking (`FORMAT_PRINTF`, `FORMAT_SCANF`)
-  - Control flow (`NORETURN`, `FALLTHROUGH`, `UNREACHABLE`, etc.)
-  - Inlining/performance (`ALWAYS_INLINE`, `NOINLINE`, `HOT`, `COLD`, etc.)
-  - Visibility control (`EXPORT`, `IMPORT`, `HIDDEN`)
-  - Diagnostics/deprecation (`DEPRECATED`, `ATTR_ERROR`, `ATTR_WARNING`)
-  - Alignment/layout (`ALIGNED`, `PACKED`, `SECTION`)
-  - Miscellaneous (`WEAK`, `USED`, `UNUSED`, `CONSTRUCTOR`, `DESTRUCTOR`, etc.)
+- **跨编译器兼容**：支持的编译器：
+    - GCC；
+    - Clang / Apple Clang；
+    - MSVC（Microsoft Visual C++）；
+    - Intel C++（icc / icx）；
+    - EDG eccp；
+    - NVIDIA HPC C++（原 PGI）；
+    - NVIDIA nvcc；
+    - Cray Compiler。
+- **全标准兼容**：支持 C89、C95、C99、C11、C17 和 C23 标准。
+- **纯头文件**：无需编译，直接包含即可使用。
+- **全面的属性覆盖**：涵盖返回值约束、参数约束、函数纯度与副作用、格式检查、控制流、内联与性能、可见性与链接、诊断与弃用、对齐与布局等多个类别。
 
-## Requirements
+## 编译 & 安装（CMake）
 
-- C compiler supporting C11 or later (GCC, Clang, MSVC)
-- CMake 3.14 or higher (for installation)
+### 使用 CMake 安装
 
-## Installation
+**环境要求**：
 
-### Using CMake
+- CMake 3.14 或更高版本（用于安装）。
 
 ```bash
-# Clone the repository
+# 克隆仓库
 git clone https://github.com/mtueih/portable_attributes.git
 cd portable_attributes
 
-# Create build directory
+# 创建构建目录
 mkdir build && cd build
 
-# Configure and install
+# 配置并安装
 cmake ..
 cmake --build .
 cmake --install .
 ```
 
-### Manual Installation
+### 手动安装
 
-Simply copy `include/portable_attributes.h` to your project's include directory and include it in your source files.
+只需将 `include/portable_attributes.h` 复制到项目的包含目录中，并在源文件中包含它。
 
-### Using as a Submodule
+## 使用
 
-```bash
-# Add as a git submodule
-git submodule add https://github.com/mtueih/portable_attributes.git deps/portable_attributes
+### CMake 集成
 
-# In your CMakeLists.txt
-add_subdirectory(deps/portable_attributes)
-target_link_libraries(your_target PRIVATE portable_attributes::portable_attributes)
-```
-
-## Usage
-
-Include the header in your C source files:
-
-```c
-#include <portable_attributes.h>
-
-// Example: Function that should not have its return value ignored
-NODISCARD int calculate_value(void);
-
-// Example: Function that never returns
-NORETURN void fatal_error(const char* message);
-
-// Example: Function with format string checking
-void log_message(FORMAT_PRINTF(1, 2) const char* format, ...);
-
-// Example: Force inline function
-ALWAYS_INLINE int max(int a, int b) {
-    return (a > b) ? a : b;
-}
-
-// Example: Structure with specific alignment
-typedef struct {
-    int x;
-    int y;
-} ALIGNED(16) Point;
-```
-
-### Integration with CMake
-
-If you've installed the library via CMake, you can use it in your project like this:
+如果通过 CMake 安装了该库，可以在项目中这样使用：
 
 ```cmake
 find_package(portable_attributes REQUIRED)
 target_link_libraries(your_target PRIVATE portable_attributes::portable_attributes)
 ```
 
-## License
+### 作为 Git 子模块使用
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```bash
+# 添加为 git 子模块
+git submodule add https://github.com/mtueih/portable_attributes.git deps/portable_attributes
 
-## Contributing
+# 在你的 CMakeLists.txt 中
+add_subdirectory(deps/portable_attributes)
+target_link_libraries(your_target PRIVATE portable_attributes::portable_attributes)
+```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 示例
 
-## Acknowledgments
+```c
+#include <portable_attributes.h>
 
-- Thanks to all contributors who help improve this library
-- Inspired by the need for cross-platform C development with consistent attribute usage
+// 示例：不应忽略返回值的函数
+NODISCARD int calculate_value(void);
+
+// 示例：永不返回的函数
+NORETURN void fatal_error(const char* message);
+
+// 示例：带格式字符串检查的函数
+void log_message(const char* format, ...) FORMAT_PRINTF(1, 2);
+
+// 示例：强制内联函数
+ALWAYS_INLINE int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+// 示例：具有特定对齐方式的结构体
+typedef struct {
+    int x;
+    int y;
+} ALIGNED(16) Point;
+```
+
+## 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+## 贡献
+
+欢迎贡献！请随时提交 Pull Request。
+
+## 致谢
+
+- 感谢所有帮助改进此库的贡献者！
+- 灵感来源于跨平台 C 开发中对一致属性使用的需求。
