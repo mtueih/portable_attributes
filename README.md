@@ -87,7 +87,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(attrs)
 
-target_link_libraries(dstr_adt PRIVATE attrs::attrs)
+target_link_libraries(your_target PRIVATE attrs::attrs)
 ```
 
 ## 示例
