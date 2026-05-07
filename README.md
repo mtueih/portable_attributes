@@ -65,28 +65,10 @@ cmake --install .
 
 ## 使用
 
-### CMake 集成
-
 如果通过 CMake 安装了该库，可以在项目中这样使用：
 
 ```cmake
 find_package(attrs REQUIRED)
-target_link_libraries(your_target PRIVATE attrs::attrs)
-```
-
-### CMake FetchContent
-
-```cmake
-include(FetchContent)
-
-FetchContent_Declare(
-	attrs
-	GIT_REPOSITORY https://github.com/mtueih/attrs.git
-	GIT_TAG main
-)
-
-FetchContent_MakeAvailable(attrs)
-
 target_link_libraries(your_target PRIVATE attrs::attrs)
 ```
 
