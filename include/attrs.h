@@ -1,11 +1,11 @@
 /**
  * @file attrs.h
- * @brief Cross-compiler C attributes abstraction macros
+ * @brief Cross-compiler C attributes abstraction macros.
  * @version 1.0.0
  *
- * Supports: C89, C99, C11, C17, C23
+ * Supports: C89, C95, C99, C11, C17, C23.
  * Compilers: GCC, Clang, MSVC, Intel C/C++, TinyCC, SDCC, ARM/Keil, IAR,
- *            Oracle/Sun CC, PGI/NVIDIA HPC, IBM XL, Embarcadero/Borland
+ *            Oracle/Sun CC, PGI/NVIDIA HPC, IBM XL, Embarcadero/Borland.
  *
  * All macros safely degrade to nothing when unsupported.
  */
@@ -225,13 +225,13 @@
 
 /* GCC attribute syntax */
 #if ATTRS_COMPILER == ATTRS_COMPILER_GCC || \
-    ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
-    ATTRS_COMPILER == ATTRS_COMPILER_INTEL || \
-    ATTRS_COMPILER == ATTRS_COMPILER_TCC || \
+ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
+ATTRS_COMPILER == ATTRS_COMPILER_INTEL || \
+ATTRS_COMPILER == ATTRS_COMPILER_TCC || \
     (ATTRS_COMPILER == ATTRS_COMPILER_KEIL && defined(__GNUC__)) || \
-    ATTRS_COMPILER == ATTRS_COMPILER_SUN || \
-    ATTRS_COMPILER == ATTRS_COMPILER_PGI || \
-    ATTRS_COMPILER == ATTRS_COMPILER_IBM
+ATTRS_COMPILER == ATTRS_COMPILER_SUN || \
+ATTRS_COMPILER == ATTRS_COMPILER_PGI || \
+ATTRS_COMPILER == ATTRS_COMPILER_IBM
 #  define ATTRS_GCC_ATTR(x) __attribute__((x))
 #else
 #  define ATTRS_GCC_ATTR(x)
@@ -239,9 +239,9 @@
 
 /* MSVC declspec syntax */
 #if ATTRS_COMPILER == ATTRS_COMPILER_MSVC || \
-    ATTRS_COMPILER == ATTRS_COMPILER_BORLAND || \
-    ATTRS_COMPILER == ATTRS_COMPILER_WATCOM || \
-    ATTRS_COMPILER == ATTRS_COMPILER_DIGITAL
+ATTRS_COMPILER == ATTRS_COMPILER_BORLAND || \
+ATTRS_COMPILER == ATTRS_COMPILER_WATCOM || \
+ATTRS_COMPILER == ATTRS_COMPILER_DIGITAL
 #  define ATTRS_MSVC_ATTR(x) __declspec(x)
 #else
 #  define ATTRS_MSVC_ATTR(x)
@@ -278,7 +278,7 @@
 #if ATTRS_HAS_C_ATTR(noreturn) || ATTRS_C_STD >= 202311L
 #  define ATTRS_NORETURN [[noreturn]]
 #elif ATTRS_HAS_ATTR(noreturn) || ATTRS_GCC_AT_LEAST(2, 5, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_NORETURN ATTRS_GCC_ATTR(noreturn)
 #elif ATTRS_MSVC_AT_LEAST(1200)
 #  define ATTRS_NORETURN ATTRS_MSVC_ATTR(noreturn)
@@ -296,7 +296,7 @@
 #if ATTRS_HAS_C_ATTR(deprecated) || ATTRS_C_STD >= 202311L
 #  define ATTRS_DEPRECATED(msg) [[deprecated(msg)]]
 #elif ATTRS_HAS_ATTR(deprecated) || ATTRS_GCC_AT_LEAST(4, 0, 0) || \
-      ATTRS_CLANG_AT_LEAST(2, 9, 0)
+ATTRS_CLANG_AT_LEAST(2, 9, 0)
 #  define ATTRS_DEPRECATED(msg) ATTRS_GCC_ATTR(deprecated(msg))
 #elif ATTRS_MSVC_AT_LEAST(1910) /* VS 2017+ supports message */
 #  define ATTRS_DEPRECATED(msg) ATTRS_MSVC_ATTR(deprecated(msg))
@@ -314,7 +314,7 @@
 #if ATTRS_HAS_C_ATTR(nodiscard) || ATTRS_C_STD >= 202311L
 #  define ATTRS_NODISCARD(msg) [[nodiscard(msg)]]
 #elif ATTRS_HAS_ATTR(warn_unused_result) || ATTRS_GCC_AT_LEAST(3, 4, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_NODISCARD(msg) ATTRS_GCC_ATTR(warn_unused_result)
 #elif ATTRS_MSVC_AT_LEAST(1700) /* VS 2012+ _Check_return_ */
 #  define ATTRS_NODISCARD(msg) _Check_return_
@@ -326,7 +326,7 @@
 #if ATTRS_HAS_C_ATTR(nodiscard) || ATTRS_C_STD >= 202311L
 #  define ATTRS_NODISCARD_SIMPLE [[nodiscard]]
 #elif ATTRS_HAS_ATTR(warn_unused_result) || ATTRS_GCC_AT_LEAST(3, 4, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_NODISCARD_SIMPLE ATTRS_GCC_ATTR(warn_unused_result)
 #else
 #  define ATTRS_NODISCARD_SIMPLE
@@ -338,7 +338,7 @@
 #if ATTRS_HAS_C_ATTR(maybe_unused) || ATTRS_C_STD >= 202311L
 #  define ATTRS_MAYBE_UNUSED [[maybe_unused]]
 #elif ATTRS_HAS_ATTR(unused) || ATTRS_GCC_AT_LEAST(2, 7, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_MAYBE_UNUSED ATTRS_GCC_ATTR(unused)
 #elif ATTRS_MSVC_AT_LEAST(1910) /* VS 2017+ */
 #  define ATTRS_MAYBE_UNUSED ATTRS_MSVC_ATTR(unreferenced)
@@ -352,7 +352,7 @@
 #if ATTRS_HAS_C_ATTR(fallthrough) || ATTRS_C_STD >= 202311L
 #  define ATTRS_FALLTHROUGH [[fallthrough]]
 #elif ATTRS_HAS_ATTR(fallthrough) || ATTRS_GCC_AT_LEAST(7, 0, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 9, 0)
+ATTRS_CLANG_AT_LEAST(3, 9, 0)
 #  define ATTRS_FALLTHROUGH ATTRS_GCC_ATTR(fallthrough)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_CLANG && \
       ATTRS_CLANG_AT_LEAST(3, 0, 0)
@@ -388,7 +388,7 @@
 /* 4.1 aligned - Variable/type alignment                                      */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(aligned) || ATTRS_GCC_AT_LEAST(2, 95, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_ALIGNED(n) ATTRS_GCC_ATTR(aligned(n))
 #elif ATTRS_MSVC_AT_LEAST(1300)
 #  define ATTRS_ALIGNED(n) ATTRS_MSVC_ATTR(align(n))
@@ -408,7 +408,7 @@
 /* 4.2 assume_aligned - Function returns aligned pointer (GCC 4.9+)           */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(assume_aligned) || ATTRS_GCC_AT_LEAST(4, 9, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 6, 0)
+ATTRS_CLANG_AT_LEAST(3, 6, 0)
 #  define ATTRS_ASSUME_ALIGNED(align, ...) \
        ATTRS_GCC_ATTR(assume_aligned(align, ## __VA_ARGS__))
 #else
@@ -419,7 +419,7 @@
 /* 4.3 alloc_align - Parameter specifies alignment of allocated memory        */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(alloc_align) || ATTRS_GCC_AT_LEAST(4, 9, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 6, 0)
+ATTRS_CLANG_AT_LEAST(3, 6, 0)
 #  define ATTRS_ALLOC_ALIGN(n) ATTRS_GCC_ATTR(alloc_align(n))
 #else
 #  define ATTRS_ALLOC_ALIGN(n)
@@ -433,7 +433,7 @@
 /* 5.1 const - Pure computation, no memory read (stricter than pure)          */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(const) || ATTRS_GCC_AT_LEAST(2, 5, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_CONST ATTRS_GCC_ATTR(const)
 #else
 #  define ATTRS_CONST
@@ -443,7 +443,7 @@
 /* 5.2 pure - No side effects, may read memory                                */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(pure) || ATTRS_GCC_AT_LEAST(2, 96, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_PURE ATTRS_GCC_ATTR(pure)
 #else
 #  define ATTRS_PURE
@@ -453,7 +453,7 @@
 /* 5.3 malloc-like - Returns freshly allocated memory                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(malloc) || ATTRS_GCC_AT_LEAST(2, 96, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_MALLOC ATTRS_GCC_ATTR(malloc)
 #elif ATTRS_MSVC_AT_LEAST(1900) /* VS 2015+ */
 #  define ATTRS_MALLOC ATTRS_MSVC_ATTR(allocator)
@@ -465,7 +465,7 @@
 /* 5.4 alloc_size - Parameters specify allocation size                        */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(alloc_size) || ATTRS_GCC_AT_LEAST(4, 3, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 0, 0)
+ATTRS_CLANG_AT_LEAST(3, 0, 0)
 #  define ATTRS_ALLOC_SIZE(...) ATTRS_GCC_ATTR(alloc_size(__VA_ARGS__))
 #else
 #  define ATTRS_ALLOC_SIZE(...)
@@ -475,7 +475,7 @@
 /* 5.5 returns_nonnull - Return value is never NULL                           */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(returns_nonnull) || ATTRS_GCC_AT_LEAST(4, 9, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 6, 0)
+ATTRS_CLANG_AT_LEAST(3, 6, 0)
 #  define ATTRS_RETURNS_NONNULL ATTRS_GCC_ATTR(returns_nonnull)
 #else
 #  define ATTRS_RETURNS_NONNULL
@@ -485,7 +485,7 @@
 /* 5.6 nonnull - Specified arguments must not be NULL                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(nonnull) || ATTRS_GCC_AT_LEAST(3, 3, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_NONNULL(...) ATTRS_GCC_ATTR(nonnull(__VA_ARGS__))
 #  define ATTRS_NONNULL_ALL ATTRS_GCC_ATTR(nonnull)
 #else
@@ -497,7 +497,7 @@
 /* 5.7 returns_twice - Function may return multiple times (e.g., setjmp)      */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(returns_twice) || ATTRS_GCC_AT_LEAST(4, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_RETURNS_TWICE ATTRS_GCC_ATTR(returns_twice)
 #else
 #  define ATTRS_RETURNS_TWICE
@@ -507,7 +507,7 @@
 /* 5.8 leaf - Function does not call back into current unit                   */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(leaf) || ATTRS_GCC_AT_LEAST(4, 6, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 4, 0)
+ATTRS_CLANG_AT_LEAST(3, 4, 0)
 #  define ATTRS_LEAF ATTRS_GCC_ATTR(leaf)
 #else
 #  define ATTRS_LEAF
@@ -517,7 +517,7 @@
 /* 5.9 sentinel - Variadic function ends with NULL sentinel                   */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(sentinel) || ATTRS_GCC_AT_LEAST(4, 0, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_SENTINEL ATTRS_GCC_ATTR(sentinel)
 #  define ATTRS_SENTINEL_POS(n) ATTRS_GCC_ATTR(sentinel(n))
 #else
@@ -529,7 +529,7 @@
 /* 5.10 format - printf/scanf-like format checking                            */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(format) || ATTRS_GCC_AT_LEAST(2, 95, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_FORMAT(archetype, fmt_idx, first_arg) \
        ATTRS_GCC_ATTR(format(archetype, fmt_idx, first_arg))
 #  define ATTRS_FORMAT_ARG(n) ATTRS_GCC_ATTR(format_arg(n))
@@ -542,7 +542,7 @@
 /* 5.11 hot / cold - Branch frequency hints                                   */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(hot) || ATTRS_GCC_AT_LEAST(4, 3, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_HOT ATTRS_GCC_ATTR(hot)
 #  define ATTRS_COLD ATTRS_GCC_ATTR(cold)
 #else
@@ -554,7 +554,7 @@
 /* 5.12 flatten - Inline all calls inside this function                       */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(flatten) || ATTRS_GCC_AT_LEAST(4, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_FLATTEN ATTRS_GCC_ATTR(flatten)
 #else
 #  define ATTRS_FLATTEN
@@ -568,7 +568,7 @@
 /* 6.1 always_inline - Force inline                                           */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(always_inline) || ATTRS_GCC_AT_LEAST(3, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_ALWAYS_INLINE inline ATTRS_GCC_ATTR(always_inline)
 #elif ATTRS_MSVC_AT_LEAST(1200)
 #  define ATTRS_ALWAYS_INLINE __forceinline
@@ -584,7 +584,7 @@
 /* 6.2 noinline - Prevent inline                                              */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(noinline) || ATTRS_GCC_AT_LEAST(3, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_NOINLINE ATTRS_GCC_ATTR(noinline)
 #elif ATTRS_MSVC_AT_LEAST(1300)
 #  define ATTRS_NOINLINE ATTRS_MSVC_ATTR(noinline)
@@ -598,7 +598,7 @@
 /* 6.3 gnu_inline - GNU inline semantics                                      */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(gnu_inline) || ATTRS_GCC_AT_LEAST(4, 1, 2) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_GNU_INLINE ATTRS_GCC_ATTR(gnu_inline)
 #else
 #  define ATTRS_GNU_INLINE
@@ -612,7 +612,7 @@
 /* 7.1 visibility - Symbol visibility                                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(visibility) || ATTRS_GCC_AT_LEAST(4, 0, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_VISIBILITY(type) ATTRS_GCC_ATTR(visibility(#type))
 #  define ATTRS_HIDDEN     ATTRS_GCC_ATTR(visibility("hidden"))
 #  define ATTRS_DEFAULT    ATTRS_GCC_ATTR(visibility("default"))
@@ -630,7 +630,7 @@
 /* 7.2 weak - Weak symbol                                                     */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(weak) || ATTRS_GCC_AT_LEAST(2, 95, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_WEAK ATTRS_GCC_ATTR(weak)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_KEIL && !defined(__GNUC__)
 #  define ATTRS_WEAK ATTRS_KEIL_ATTR(weak)
@@ -662,7 +662,7 @@
 /* 7.5 used - Keep symbol even if unreferenced                                */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(used) || ATTRS_GCC_AT_LEAST(3, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_USED ATTRS_GCC_ATTR(used)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_KEIL && !defined(__GNUC__)
 #  define ATTRS_USED ATTRS_KEIL_ATTR(used)
@@ -683,7 +683,7 @@
 /* 7.7 section - Place in specific section                                    */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(section) || ATTRS_GCC_AT_LEAST(2, 95, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_SECTION(name) ATTRS_GCC_ATTR(section(#name))
 #elif ATTRS_MSVC_AT_LEAST(1200)
 #  define ATTRS_SECTION(name) ATTRS_MSVC_ATTR(allocate(#name))
@@ -701,7 +701,7 @@
 /* 8.1 constructor - Run before main()                                        */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(constructor) || ATTRS_GCC_AT_LEAST(2, 7, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_CONSTRUCTOR ATTRS_GCC_ATTR(constructor)
 #  define ATTRS_CONSTRUCTOR_PRIO(p) ATTRS_GCC_ATTR(constructor(p))
 #else
@@ -713,7 +713,7 @@
 /* 8.2 destructor - Run at exit()                                             */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(destructor) || ATTRS_GCC_AT_LEAST(2, 7, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_DESTRUCTOR ATTRS_GCC_ATTR(destructor)
 #  define ATTRS_DESTRUCTOR_PRIO(p) ATTRS_GCC_ATTR(destructor(p))
 #else
@@ -729,7 +729,7 @@
 /* 9.1 packed - No padding, compact layout                                    */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(packed) || ATTRS_GCC_AT_LEAST(2, 7, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_PACKED ATTRS_GCC_ATTR(packed)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_MSVC
 /* MSVC uses #pragma pack */
@@ -744,7 +744,7 @@
 /* 9.2 cleanup - Auto-call function on scope exit                             */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(cleanup) || ATTRS_GCC_AT_LEAST(3, 3, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_CLEANUP(func) ATTRS_GCC_ATTR(cleanup(func))
 #else
 #  define ATTRS_CLEANUP(func)
@@ -763,7 +763,7 @@
 /* 9.4 may_alias - Allow type punning                                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(may_alias) || ATTRS_GCC_AT_LEAST(3, 3, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_MAY_ALIAS ATTRS_GCC_ATTR(may_alias)
 #else
 #  define ATTRS_MAY_ALIAS
@@ -773,7 +773,7 @@
 /* 9.5 vector_size - SIMD vector type                                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(vector_size) || ATTRS_GCC_AT_LEAST(3, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_VECTOR_SIZE(n) ATTRS_GCC_ATTR(vector_size(n))
 #else
 #  define ATTRS_VECTOR_SIZE(n)
@@ -787,7 +787,7 @@
 /* 10.1 no_sanitize - Disable specific sanitizer checks                       */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(no_sanitize) || ATTRS_GCC_AT_LEAST(4, 9, 0) || \
-      ATTRS_CLANG_AT_LEAST(3, 6, 0)
+ATTRS_CLANG_AT_LEAST(3, 6, 0)
 #  define ATTRS_NO_SANITIZE(type) ATTRS_GCC_ATTR(no_sanitize(type))
 #else
 #  define ATTRS_NO_SANITIZE(type)
@@ -840,7 +840,7 @@
 /* 11.1 target - Compile with specific target options                         */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(target) || ATTRS_GCC_AT_LEAST(4, 4, 0) || \
-      ATTRS_CLANG_AT_LEAST(2, 9, 0)
+ATTRS_CLANG_AT_LEAST(2, 9, 0)
 #  define ATTRS_TARGET(...) ATTRS_GCC_ATTR(target(__VA_ARGS__))
 #else
 #  define ATTRS_TARGET(...)
@@ -879,7 +879,7 @@
 /* 11.5 tls_model - Thread-local storage model                               */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_HAS_ATTR(tls_model) || ATTRS_GCC_AT_LEAST(4, 1, 0) || \
-      ATTRS_CLANG_AT_LEAST(1, 0, 0)
+ATTRS_CLANG_AT_LEAST(1, 0, 0)
 #  define ATTRS_TLS_MODEL(model) ATTRS_GCC_ATTR(tls_model(#model))
 #else
 #  define ATTRS_TLS_MODEL(model)
@@ -893,9 +893,9 @@
 /* 12.1 dllexport / dllimport                                                 */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_COMPILER == ATTRS_COMPILER_MSVC || \
-    ATTRS_COMPILER == ATTRS_COMPILER_BORLAND || \
-    ATTRS_COMPILER == ATTRS_COMPILER_WATCOM || \
-    ATTRS_COMPILER == ATTRS_COMPILER_DIGITAL
+ATTRS_COMPILER == ATTRS_COMPILER_BORLAND || \
+ATTRS_COMPILER == ATTRS_COMPILER_WATCOM || \
+ATTRS_COMPILER == ATTRS_COMPILER_DIGITAL
 #  define ATTRS_DLLEXPORT ATTRS_MSVC_ATTR(dllexport)
 #  define ATTRS_DLLIMPORT ATTRS_MSVC_ATTR(dllimport)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_GCC && defined(_WIN32)
@@ -913,11 +913,11 @@
 /* 12.2 naked - No compiler prologue/epilogue                                 */
 /* -------------------------------------------------------------------------- */
 #if ATTRS_COMPILER == ATTRS_COMPILER_MSVC || \
-    ATTRS_COMPILER == ATTRS_COMPILER_BORLAND
+ATTRS_COMPILER == ATTRS_COMPILER_BORLAND
 #  define ATTRS_NAKED ATTRS_MSVC_ATTR(naked)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_GCC || \
-      ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
-      ATTRS_COMPILER == ATTRS_COMPILER_INTEL
+ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
+ATTRS_COMPILER == ATTRS_COMPILER_INTEL
 #  define ATTRS_NAKED ATTRS_GCC_ATTR(naked)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_KEIL && !defined(__GNUC__)
 #  define ATTRS_NAKED ATTRS_KEIL_ATTR(naked)
@@ -931,12 +931,12 @@
 #if ATTRS_C_STD >= 201112L
 #  define ATTRS_THREAD_LOCAL _Thread_local
 #elif ATTRS_COMPILER == ATTRS_COMPILER_MSVC || \
-      ATTRS_COMPILER == ATTRS_COMPILER_BORLAND
+ATTRS_COMPILER == ATTRS_COMPILER_BORLAND
 #  define ATTRS_THREAD_LOCAL ATTRS_MSVC_ATTR(thread)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_GCC || \
-      ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
-      ATTRS_COMPILER == ATTRS_COMPILER_INTEL || \
-      ATTRS_COMPILER == ATTRS_COMPILER_SUN
+ATTRS_COMPILER == ATTRS_COMPILER_CLANG || \
+ATTRS_COMPILER == ATTRS_COMPILER_INTEL || \
+ATTRS_COMPILER == ATTRS_COMPILER_SUN
 #  define ATTRS_THREAD_LOCAL __thread
 #else
 #  define ATTRS_THREAD_LOCAL
@@ -964,7 +964,7 @@
 /* -------------------------------------------------------------------------- */
 #if (ATTRS_COMPILER == ATTRS_COMPILER_GCC && ATTRS_GCC_AT_LEAST(2, 96, 0)) || \
     (ATTRS_COMPILER == ATTRS_COMPILER_CLANG && ATTRS_CLANG_AT_LEAST(1, 0, 0)) || \
-    ATTRS_COMPILER == ATTRS_COMPILER_INTEL
+ATTRS_COMPILER == ATTRS_COMPILER_INTEL
 #  define ATTRS_LIKELY(x)   __builtin_expect(!!(x), 1)
 #  define ATTRS_UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
@@ -1037,7 +1037,7 @@
 #  define ATTRS_ALIGNOF(type) _Alignof(type)
 #elif (ATTRS_COMPILER == ATTRS_COMPILER_GCC && ATTRS_GCC_AT_LEAST(4, 0, 0)) || \
       (ATTRS_COMPILER == ATTRS_COMPILER_CLANG && ATTRS_CLANG_AT_LEAST(1, 0, 0)) || \
-      ATTRS_COMPILER == ATTRS_COMPILER_INTEL
+ATTRS_COMPILER == ATTRS_COMPILER_INTEL
 #  define ATTRS_ALIGNOF(type) __alignof__(type)
 #elif ATTRS_COMPILER == ATTRS_COMPILER_MSVC
 #  define ATTRS_ALIGNOF(type) __alignof(type)
